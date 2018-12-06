@@ -27,8 +27,43 @@ namespace WindowsFormsApp10
         {
             df_addCountry.Click += Df_addCountry_Click;
             ac_countries.DoubleClick += Ac_countries_DoubleClick;
+            df_deleteCountry.Click += Df_deleteCountry_Click;
 
             GetAllCities();
+        }
+
+        /// <summary>
+        /// Delete selected country
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Df_deleteCountry_Click(object sender, EventArgs e)
+        {
+            string data = $"token=ps_rpo_2&param=deleteCountryById&countryId={ac_countries.SelectedItems[0].Text}";
+
+            WebRequest request = Common.SendData("POST", data);
+
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    responseJson = reader.ReadToEnd();
+                }
+            }
+            response.Close();
+
+            if (responseJson == "200")
+            {
+                Common.ShowSuccessMessage("Страна удалена!");
+                GetAllCities();
+               
+            }
+            else
+            {
+                Common.ShowErrorMessage("Ошибка удаления!");
+            }
         }
 
         /// <summary>
