@@ -81,40 +81,40 @@ namespace WindowsFormsApp10
             (sender as Button).BackColor = Color.RoyalBlue;
         }
 
-        private async Task InsertCountriesAsync()
-        {
-            //WebRequest request = WebRequest.Create("http://localhost:777/travel_agancy.loc/apiExem/api.php");       
-            WebRequest request = WebRequest.Create("http://178.213.0.182:11080/apiExem/api.php");       
-            //WebRequest request = WebRequest.Create("http://192.168.88.217/apiExem/api.php");
-            request.Method = "POST"; // для отправки используется метод Post
-                                     // данные для отправки
-            string data = $"token=ps_rpo_2&param=insCountries&object={JsonConvert.SerializeObject(new Country { countryName="Bolivia"})}";
-            // преобразуем данные в массив байтов
-            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(data);
-            // устанавливаем тип содержимого - параметр ContentType
-            request.ContentType = "application/x-www-form-urlencoded";
-            // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
-            request.ContentLength = byteArray.Length;
+        //private async Task InsertCountriesAsync()
+        //{
+        //    //WebRequest request = WebRequest.Create("http://localhost:777/travel_agancy.loc/apiExem/api.php");       
+        //    WebRequest request = WebRequest.Create("http://178.213.0.182:11080/apiExem/api.php");       
+        //    //WebRequest request = WebRequest.Create("http://192.168.88.217/apiExem/api.php");
+        //    request.Method = "POST"; // для отправки используется метод Post
+        //                             // данные для отправки
+        //    string data = $"token=ps_rpo_2&param=insCountries&object={JsonConvert.SerializeObject(new Country { countryName="Bolivia"})}";
+        //    // преобразуем данные в массив байтов
+        //    byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(data);
+        //    // устанавливаем тип содержимого - параметр ContentType
+        //    request.ContentType = "application/x-www-form-urlencoded";
+        //    // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
+        //    request.ContentLength = byteArray.Length;
 
-            //записываем данные в поток запроса
-            using (Stream dataStream = request.GetRequestStream())
-            {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-            }
+        //    //записываем данные в поток запроса
+        //    using (Stream dataStream = request.GetRequestStream())
+        //    {
+        //        dataStream.Write(byteArray, 0, byteArray.Length);
+        //    }
 
-            WebResponse response = await request.GetResponseAsync();
-            using (Stream stream = response.GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    responseJson = reader.ReadToEnd();
-                }
-            }
-            response.Close();
-            if (responseJson == "200") {
-                MessageBox.Show("Страна добавлена!");
-            }
-        }
+        //    WebResponse response = await request.GetResponseAsync();
+        //    using (Stream stream = response.GetResponseStream())
+        //    {
+        //        using (StreamReader reader = new StreamReader(stream))
+        //        {
+        //            responseJson = reader.ReadToEnd();
+        //        }
+        //    }
+        //    response.Close();
+        //    if (responseJson == "200") {
+        //        MessageBox.Show("Страна добавлена!");
+        //    }
+        //}
 
         /// <summary>
         /// Get list of countries

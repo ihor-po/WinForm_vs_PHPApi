@@ -25,11 +25,35 @@ namespace WindowsFormsApp10
 
         private void Add_country_Load(object sender, EventArgs e)
         {
+            df_addCountry.Click += Df_addCountry_Click;
             ac_countries.DoubleClick += Ac_countries_DoubleClick;
 
             GetAllCities();
         }
 
+        /// <summary>
+        /// Show form for add country
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Df_addCountry_Click(object sender, EventArgs e)
+        {
+            AddForm af = new AddForm(-1);
+            if (af.ShowDialog() == DialogResult.OK)
+            {
+                GetAllCities();
+            }
+            else
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// Edit coutry
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ac_countries_DoubleClick(object sender, EventArgs e)
         {
             this.Text = ac_countries.SelectedItems[0].Text;

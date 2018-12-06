@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WindowsFormsApp10
 {
@@ -31,6 +32,24 @@ namespace WindowsFormsApp10
             }
 
             return request;
+        }
+
+        /// <summary>
+        /// Show error message
+        /// </summary>
+        /// <param name="msg"></param>
+        public static void ShowErrorMessage(string msg)
+        {
+            MessageBox.Show(msg, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Show success message
+        /// </summary>
+        /// <param name="msg"></param>
+        public static void ShowSuccessMessage(string msg)
+        {
+            MessageBox.Show(msg, "Успешно!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
