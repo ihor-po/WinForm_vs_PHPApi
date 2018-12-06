@@ -43,10 +43,6 @@ namespace WindowsFormsApp10
             {
                 GetAllCities();
             }
-            else
-            {
-
-            }
         }
 
         /// <summary>
@@ -56,7 +52,12 @@ namespace WindowsFormsApp10
         /// <param name="e"></param>
         private void Ac_countries_DoubleClick(object sender, EventArgs e)
         {
-            this.Text = ac_countries.SelectedItems[0].Text;
+            int id = Convert.ToInt32(ac_countries.SelectedItems[0].Text);
+            AddForm af = new AddForm(id);
+            if (af.ShowDialog() == DialogResult.OK)
+            {
+                GetAllCities();
+            }
         }
 
         /// <summary>
@@ -81,6 +82,7 @@ namespace WindowsFormsApp10
             response.Close();
 
             List<Country> countiries = JsonConvert.DeserializeObject<List<Country>>(responseJson).Select(c => c).ToList();
+            ac_countries.Items.Clear();
 
             foreach (var item in countiries)
             {

@@ -17,6 +17,7 @@ namespace WindowsFormsApp10
     {
         private int id;
         private string responseJson;
+        private Country country;
 
         public AddForm(int _id)
         {
@@ -38,7 +39,8 @@ namespace WindowsFormsApp10
             else
             {
                 this.Text = "Редактирование страны";
-                af_addButton.Text = "Редактировать";
+                af_addButton.Text = "Изменить";
+                getCountryById();
             }
         }
 
@@ -46,8 +48,17 @@ namespace WindowsFormsApp10
         {
             switch (af_addButton.Text)
             {
-                case "Редактировать":
+                case "Изменить":
+                    if (!String.IsNullOrEmpty(af_countryName.Text) && country != null)
+                    {
+                        UpdateCountry();
+                    }
+                    else
+                    {
+                        Common.ShowErrorMessage("Введите название страны!");
+                    }
                     break;
+                   
                 case "Добавить":
 
                     if (!String.IsNullOrEmpty(af_countryName.Text))
@@ -61,6 +72,29 @@ namespace WindowsFormsApp10
                     break;
             }
         }
+
+        private async void getCountryById()
+        {
+            string data = $"token=ps_rpo_2&param=getCountryById&countryId=" + id;
+
+            WebRequest request = Common.SendData("POST", data);
+
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    responseJson = reader.ReadToEnd();
+                }
+            }
+
+            response.Close();
+
+            country = JsonConvert.DeserializeObject<Country>(responseJson);
+            af_countryName.Text = country.countryName;
+        }
+
         /// <summary>
         /// Add country to DB
         /// </summary>
@@ -90,6 +124,37 @@ namespace WindowsFormsApp10
             else
             {
                 Common.ShowErrorMessage("Ошибка добавления!");
+            }
+        }
+
+        /// <summary>
+        /// Update country by id
+        /// </summary>
+        private async void UpdateCountry()
+        {
+            string data = $"token=ps_rpo_2&param=updateCountryById&country={af_countryName.Text}&countryId={country.id}";
+
+            WebRequest request = Common.SendData("POST", data);
+
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    responseJson = reader.ReadToEnd();
+                }
+            }
+            response.Close();
+
+            if (responseJson == "200")
+            {
+                Common.ShowSuccessMessage("Страна изменена!");
+                this.DialogResult = DialogResult.OK;
+            }
+            else
+            {
+                Common.ShowErrorMessage("Ошибка изменения!");
             }
         }
     }

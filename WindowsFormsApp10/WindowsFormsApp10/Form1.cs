@@ -32,7 +32,6 @@ namespace WindowsFormsApp10
             mf_countries.SelectedIndexChanged += Mf_countries_SelectedIndexChanged;
 
             await LoadComboboxCountriesAsync();
-            //await InsertCountriesAsync();
 
         }
 
