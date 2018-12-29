@@ -49,7 +49,9 @@ namespace WindowsFormsApp10
         /// <param name="e"></param>
         private void Mf_btn_cityDictionary_Click(object sender, EventArgs e)
         {
-            Dictionary_city dc = new Dictionary_city();
+            int id = Convert.ToInt32(mf_countries.SelectedValue.ToString());
+            string country = mf_countries.Text;
+            Dictionary_city dc = new Dictionary_city(id, country);
             dc.ShowDialog();
         }
 
@@ -232,7 +234,6 @@ namespace WindowsFormsApp10
         private void EnabDisabCitiesControls(bool status)
         {
             mf_cb_city.Enabled = status;
-            mf_btn_cityDictionary.Enabled = status;
         }
 
     }

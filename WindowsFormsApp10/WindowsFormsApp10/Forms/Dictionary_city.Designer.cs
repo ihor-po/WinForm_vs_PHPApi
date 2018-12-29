@@ -28,51 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(add_country));
-            this.ac_countries = new System.Windows.Forms.ListView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dictionary_city));
+            this.dc_lv_cities = new System.Windows.Forms.ListView();
             this.ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.countriesName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.df_addCountry = new System.Windows.Forms.Button();
+            this.cityName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.dc_addCity = new System.Windows.Forms.Button();
             this.df_deleteCountry = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // ac_countries
+            // dc_lv_cities
             // 
-            this.ac_countries.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ac_countries.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.dc_lv_cities.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dc_lv_cities.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ID,
-            this.countriesName});
-            this.ac_countries.FullRowSelect = true;
-            this.ac_countries.GridLines = true;
-            this.ac_countries.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.ac_countries.Location = new System.Drawing.Point(12, 12);
-            this.ac_countries.MultiSelect = false;
-            this.ac_countries.Name = "ac_countries";
-            this.ac_countries.Size = new System.Drawing.Size(427, 151);
-            this.ac_countries.TabIndex = 0;
-            this.ac_countries.UseCompatibleStateImageBehavior = false;
-            this.ac_countries.View = System.Windows.Forms.View.Details;
+            this.cityName});
+            this.dc_lv_cities.FullRowSelect = true;
+            this.dc_lv_cities.GridLines = true;
+            this.dc_lv_cities.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.dc_lv_cities.Location = new System.Drawing.Point(12, 12);
+            this.dc_lv_cities.MultiSelect = false;
+            this.dc_lv_cities.Name = "dc_lv_cities";
+            this.dc_lv_cities.Size = new System.Drawing.Size(427, 151);
+            this.dc_lv_cities.TabIndex = 0;
+            this.dc_lv_cities.UseCompatibleStateImageBehavior = false;
+            this.dc_lv_cities.View = System.Windows.Forms.View.Details;
             // 
             // ID
             // 
             this.ID.Text = "ID";
             this.ID.Width = 40;
             // 
-            // countriesName
+            // cityName
             // 
-            this.countriesName.Text = "Страны";
-            this.countriesName.Width = 360;
+            this.cityName.Text = "Города";
+            this.cityName.Width = 360;
             // 
-            // df_addCountry
+            // dc_addCity
             // 
-            this.df_addCountry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.df_addCountry.ForeColor = System.Drawing.Color.White;
-            this.df_addCountry.Location = new System.Drawing.Point(454, 12);
-            this.df_addCountry.Name = "df_addCountry";
-            this.df_addCountry.Size = new System.Drawing.Size(161, 68);
-            this.df_addCountry.TabIndex = 1;
-            this.df_addCountry.Text = "Добавить";
-            this.df_addCountry.UseVisualStyleBackColor = true;
+            this.dc_addCity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.dc_addCity.ForeColor = System.Drawing.Color.White;
+            this.dc_addCity.Location = new System.Drawing.Point(454, 12);
+            this.dc_addCity.Name = "dc_addCity";
+            this.dc_addCity.Size = new System.Drawing.Size(161, 68);
+            this.dc_addCity.TabIndex = 1;
+            this.dc_addCity.Text = "Добавить";
+            this.dc_addCity.UseVisualStyleBackColor = true;
             // 
             // df_deleteCountry
             // 
@@ -85,34 +85,34 @@
             this.df_deleteCountry.Text = "Удалить";
             this.df_deleteCountry.UseVisualStyleBackColor = true;
             // 
-            // add_country
+            // Dictionary_city
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(627, 172);
             this.Controls.Add(this.df_deleteCountry);
-            this.Controls.Add(this.df_addCountry);
-            this.Controls.Add(this.ac_countries);
+            this.Controls.Add(this.dc_addCity);
+            this.Controls.Add(this.dc_lv_cities);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "add_country";
+            this.Name = "Dictionary_city";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Справочник Страны";
+            this.Text = "Справочник Города в стране: ";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListView ac_countries;
-        private System.Windows.Forms.Button df_addCountry;
+        private System.Windows.Forms.ListView dc_lv_cities;
+        private System.Windows.Forms.Button dc_addCity;
         private System.Windows.Forms.Button df_deleteCountry;
         private System.Windows.Forms.ColumnHeader ID;
-        private System.Windows.Forms.ColumnHeader countriesName;
+        private System.Windows.Forms.ColumnHeader cityName;
     }
 }

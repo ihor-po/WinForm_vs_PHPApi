@@ -16,40 +16,44 @@ namespace WindowsFormsApp10
     public partial class AddCityForm : Form
     {
         private int id;
+        private int countryId;
+        private string country;
         private string responseJson;
-        private Country country;
+        private City city;
 
-        public AddCityForm(int _id)
+        public AddCityForm(int _id, int _countryId, string _country)
         {
             InitializeComponent();
             this.Load += AddForm_Load;
             id = _id;
+            countryId = _countryId;
+            country = _country;
 
         }
 
         private void AddForm_Load(object sender, EventArgs e)
         {
-            af_addButton.Click += Af_addButton_Click;
+            aсf_addButton.Click += Af_addButton_Click;
 
             if (id == -1)
             {
-                this.Text = "Добавление страны";
-                af_addButton.Text = "Добавить";
+                this.Text = $"Добавление города в страну {country}";
+                aсf_addButton.Text = "Добавить";
             }
             else
             {
-                this.Text = "Редактирование страны";
-                af_addButton.Text = "Изменить";
+                this.Text = $"Редактирование города в стране {country}";
+                aсf_addButton.Text = "Изменить";
                 getCountryById();
             }
         }
 
         private void Af_addButton_Click(object sender, EventArgs e)
         {
-            switch (af_addButton.Text)
+            switch (aсf_addButton.Text)
             {
                 case "Изменить":
-                    if (!String.IsNullOrEmpty(af_countryName.Text) && country != null)
+                    if (!String.IsNullOrEmpty(aсf_cityName.Text) && city != null)
                     {
                         UpdateCountry();
                     }
@@ -61,9 +65,9 @@ namespace WindowsFormsApp10
                    
                 case "Добавить":
 
-                    if (!String.IsNullOrEmpty(af_countryName.Text))
+                    if (!String.IsNullOrEmpty(aсf_cityName.Text))
                     {
-                        AddNewCountry(af_countryName.Text);
+                        AddNewCity(aсf_cityName.Text);
                     }
                     else
                     {
@@ -91,40 +95,44 @@ namespace WindowsFormsApp10
 
             response.Close();
 
-            country = JsonConvert.DeserializeObject<Country>(responseJson);
-            af_countryName.Text = country.countryName;
+            city = JsonConvert.DeserializeObject<City>(responseJson);
+            aсf_cityName.Text = city.cityName;
         }
 
         /// <summary>
         /// Add country to DB
         /// </summary>
         /// <param name="country"></param>
-        private async void AddNewCountry(string country)
+        private async void AddNewCity(string city)
         {
-            string data = $"token=ps_rpo_2&param=addCountry&country=" + af_countryName.Text;
+            City newCity = new City();
+            newCity.cityName = city;
+            newCity.countryId = countryId;
+            //string data = $"token=ps_rpo_2&param=addCountry&country=" + aсf_cityName.Text;
+            string data = JsonConvert.SerializeObject(newCity);
 
-            WebRequest request = Common.SendData("POST", data);
+            //WebRequest request = Common.SendData("POST", data);
 
-            WebResponse response = await request.GetResponseAsync();
+            //WebResponse response = await request.GetResponseAsync();
 
-            using (Stream stream = response.GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    responseJson = reader.ReadToEnd();
-                }
-            }
-            response.Close();
+            //using (Stream stream = response.GetResponseStream())
+            //{
+            //using (StreamReader reader = new StreamReader(stream))
+            //{
+            //responseJson = reader.ReadToEnd();
+            //}
+            //}
+            //response.Close();
 
-            if (responseJson == "200")
-            {
-                Common.ShowSuccessMessage("Страна добавлена!");
-                this.DialogResult = DialogResult.OK;
-            }
-            else
-            {
-                Common.ShowErrorMessage("Ошибка добавления!");
-            }
+            //if (responseJson == "200")
+            //{
+            //    Common.ShowSuccessMessage("Страна добавлена!");
+            //    this.DialogResult = DialogResult.OK;
+            //}
+            //else
+            //{
+            //    Common.ShowErrorMessage("Ошибка добавления!");
+            //}
         }
 
         /// <summary>
@@ -132,7 +140,7 @@ namespace WindowsFormsApp10
         /// </summary>
         private async void UpdateCountry()
         {
-            string data = $"token=ps_rpo_2&param=updateCountryById&country={af_countryName.Text}&countryId={country.id}";
+            string data = $"token=ps_rpo_2&param=updateCountryById&country={aсf_cityName.Text}&countryId={city.id}";
 
             WebRequest request = Common.SendData("POST", data);
 

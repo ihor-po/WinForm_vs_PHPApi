@@ -16,20 +16,25 @@ namespace WindowsFormsApp10
     public partial class Dictionary_city : Form
     {
         private string responseJson;
+        private int countryId;
+        private string country;
 
-        public Dictionary_city()
+        public Dictionary_city(int _countryId, string _country)
         {
             InitializeComponent();
-            this.Load += Add_country_Load;
+            countryId = _countryId;
+            country = _country;
+            this.Text += country;
+            this.Load += Dictionary_city_Load;
         }
 
-        private void Add_country_Load(object sender, EventArgs e)
+        private void Dictionary_city_Load(object sender, EventArgs e)
         {
-            df_addCountry.Click += Df_addCountry_Click;
-            ac_countries.DoubleClick += Ac_countries_DoubleClick;
+            dc_addCity.Click += Df_addCity_Click;
+            dc_lv_cities.DoubleClick += Ac_countries_DoubleClick;
             df_deleteCountry.Click += Df_deleteCountry_Click;
 
-            GetAllCities();
+            GetCountryCities(countryId);
         }
 
         /// <summary>
@@ -39,7 +44,7 @@ namespace WindowsFormsApp10
         /// <param name="e"></param>
         private async void Df_deleteCountry_Click(object sender, EventArgs e)
         {
-            string data = $"token=ps_rpo_2&param=deleteCountryById&countryId={ac_countries.SelectedItems[0].Text}";
+            string data = $"token=ps_rpo_2&param=deleteCountryById&countryId={dc_lv_cities.SelectedItems[0].Text}";
 
             WebRequest request = Common.SendData("POST", data);
 
@@ -57,7 +62,7 @@ namespace WindowsFormsApp10
             if (responseJson == "200")
             {
                 Common.ShowSuccessMessage("Страна удалена!");
-                GetAllCities();
+                GetCountryCities(countryId);
                
             }
             else
@@ -71,12 +76,12 @@ namespace WindowsFormsApp10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Df_addCountry_Click(object sender, EventArgs e)
+        private void Df_addCity_Click(object sender, EventArgs e)
         {
-            AddForm af = new AddForm(-1);
-            if (af.ShowDialog() == DialogResult.OK)
+            AddCityForm acf = new AddCityForm(-1, countryId, country);
+            if (acf.ShowDialog() == DialogResult.OK)
             {
-                GetAllCities();
+                GetCountryCities(countryId);
             }
         }
 
@@ -87,20 +92,23 @@ namespace WindowsFormsApp10
         /// <param name="e"></param>
         private void Ac_countries_DoubleClick(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(ac_countries.SelectedItems[0].Text);
+            int id = Convert.ToInt32(dc_lv_cities.SelectedItems[0].Text);
             AddForm af = new AddForm(id);
             if (af.ShowDialog() == DialogResult.OK)
             {
-                GetAllCities();
+                GetCountryCities(countryId);
             }
         }
 
+
         /// <summary>
-        /// Get all city from server
+        /// Get list of celected country cities
         /// </summary>
-        private async void GetAllCities()
+        /// <param name="countryId"></param>
+        /// <returns></returns>
+        private async void GetCountryCities(int countryId)
         {
-            string data = "token=ps_rpo_2&param=getCountries";
+            string data = $"token=ps_rpo_2&param=getCities&countryId={countryId}";
 
             WebRequest request = Common.SendData("POST", data);
 
@@ -116,15 +124,15 @@ namespace WindowsFormsApp10
 
             response.Close();
 
-            List<Country> countiries = JsonConvert.DeserializeObject<List<Country>>(responseJson).Select(c => c).ToList();
-            ac_countries.Items.Clear();
+            List<City> cities = JsonConvert.DeserializeObject<List<City>>(responseJson).Select(c => c).ToList();
 
-            foreach (var item in countiries)
+            dc_lv_cities.Items.Clear();
+
+            foreach (var item in cities)
             {
                 ListViewItem lvi = new ListViewItem(item.id.ToString());
-                lvi.SubItems.Add(item.countryName);
-                ac_countries.Items.Add(lvi);
-                
+                lvi.SubItems.Add(item.cityName);
+                dc_lv_cities.Items.Add(lvi);
             }
         }
     }

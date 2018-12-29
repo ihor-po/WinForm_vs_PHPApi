@@ -10,7 +10,7 @@ namespace WindowsFormsApp10
     {
         public int id { get; set; }
         public string cityName { get; set; }
-        public string countryId { get; set; }
+        public int countryId { get; set; }
 
     }
 }
