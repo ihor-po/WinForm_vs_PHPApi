@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp10
 {
-    public class Country
+    public class City
     {
         public int id { get; set; }
-        public string countryName { get; set; }
+        public string cityName { get; set; }
+        public string countryId { get; set; }
+
     }
 }

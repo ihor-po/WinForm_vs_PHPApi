@@ -27,25 +27,66 @@ namespace WindowsFormsApp10
             mf_addCountry.MouseLeave += Mf_addCountry_MouseLeave;
             mf_addCountry.MouseDown += Mf_addCountry_MouseDown;
             mf_addCountry.MouseUp += Mf_addCountry_MouseLeave;
+
+            mf_btn_cityDictionary.MouseHover += Mf_addCountry_MouseHover;
+            mf_btn_cityDictionary.MouseLeave += Mf_addCountry_MouseLeave;
+            mf_btn_cityDictionary.MouseDown += Mf_addCountry_MouseDown;
+            mf_btn_cityDictionary.MouseUp += Mf_addCountry_MouseLeave;
+
             mf_addCountry.Click += Mf_addCountry_Click;
+            mf_btn_cityDictionary.Click += Mf_btn_cityDictionary_Click;
 
             mf_countries.SelectedIndexChanged += Mf_countries_SelectedIndexChanged;
 
             await LoadComboboxCountriesAsync();
-
+            await LoadComboboxCitiesAsync(Convert.ToInt32(mf_countries.SelectedValue.ToString()));
         }
 
+        /// <summary>
+        /// Show form for working with Cities dictionary
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Mf_btn_cityDictionary_Click(object sender, EventArgs e)
+        {
+            Dictionary_city dc = new Dictionary_city();
+            dc.ShowDialog();
+        }
+
+        /// <summary>
+        /// Show form for working with Country dictionary
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Mf_addCountry_Click(object sender, EventArgs e)
         {
             add_country ac = new add_country();
 
-            ac.Show();
-
+            ac.ShowDialog();
         }
 
-        private void Mf_countries_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Country change event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Mf_countries_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Text = (sender as ComboBox).SelectedValue.ToString();
+            string val = mf_countries.SelectedValue.ToString();
+
+            if (! String.IsNullOrEmpty(val))
+            {
+                try
+                {
+                    int id = Convert.ToInt32(val);
+                    await LoadComboboxCitiesAsync(id);
+                }
+                catch (Exception)
+                {
+
+                }
+               
+            }
         }
 
         #region styles
@@ -142,5 +183,57 @@ namespace WindowsFormsApp10
             mf_countries.DisplayMember = "countryName";
             mf_countries.ValueMember = "id";
         }
+
+        /// <summary>
+        /// Get list of celected country cities
+        /// </summary>
+        /// <param name="countryId"></param>
+        /// <returns></returns>
+        private async Task LoadComboboxCitiesAsync(int countryId)
+        {
+            string data = $"token=ps_rpo_2&param=getCities&countryId={countryId}";
+
+            WebRequest request = Common.SendData("POST", data);
+
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    responseJson = reader.ReadToEnd();
+                }
+            }
+
+            response.Close();
+
+            List<City> cities = JsonConvert.DeserializeObject<List<City>>(responseJson).Select(c => c).ToList();
+
+            if (cities.Count() == 0)
+            {
+                EnabDisabCitiesControls(false);
+                
+                mf_cb_city.DataSource = null;
+            }
+            else
+            {
+                EnabDisabCitiesControls(true);
+
+                mf_cb_city.DataSource = cities;
+                mf_cb_city.DisplayMember = "cityName";
+                mf_cb_city.ValueMember = "id";
+            }
+        }
+
+        /// <summary>
+        /// Enable / disable cities controls
+        /// </summary>
+        /// <param name="status"></param>
+        private void EnabDisabCitiesControls(bool status)
+        {
+            mf_cb_city.Enabled = status;
+            mf_btn_cityDictionary.Enabled = status;
+        }
+
     }
 }

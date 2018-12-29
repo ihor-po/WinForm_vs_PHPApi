@@ -64,12 +64,25 @@
       <DependentUpon>add_country.cs</DependentUpon>
     </Compile>
     <Compile Include="Common.cs" />
+    <Compile Include="City.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddCityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddCityForm.Designer.cs">
+      <DependentUpon>AddCityForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Dictionary_city.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Dictionary_city.Designer.cs">
+      <DependentUpon>Dictionary_city.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +94,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddCityForm.resx">
+      <DependentUpon>AddCityForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Dictionary_city.resx">
+      <DependentUpon>Dictionary_city.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

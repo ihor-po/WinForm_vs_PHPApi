@@ -13,11 +13,11 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp10
 {
-    public partial class add_country : Form
+    public partial class Dictionary_city : Form
     {
         private string responseJson;
 
-        public add_country()
+        public Dictionary_city()
         {
             InitializeComponent();
             this.Load += Add_country_Load;
@@ -29,7 +29,7 @@ namespace WindowsFormsApp10
             ac_countries.DoubleClick += Ac_countries_DoubleClick;
             df_deleteCountry.Click += Df_deleteCountry_Click;
 
-            GetAllCountries();
+            GetAllCities();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace WindowsFormsApp10
             if (responseJson == "200")
             {
                 Common.ShowSuccessMessage("Страна удалена!");
-                GetAllCountries();
+                GetAllCities();
                
             }
             else
@@ -76,7 +76,7 @@ namespace WindowsFormsApp10
             AddForm af = new AddForm(-1);
             if (af.ShowDialog() == DialogResult.OK)
             {
-                GetAllCountries();
+                GetAllCities();
             }
         }
 
@@ -91,14 +91,14 @@ namespace WindowsFormsApp10
             AddForm af = new AddForm(id);
             if (af.ShowDialog() == DialogResult.OK)
             {
-                GetAllCountries();
+                GetAllCities();
             }
         }
 
         /// <summary>
         /// Get all city from server
         /// </summary>
-        private async void GetAllCountries()
+        private async void GetAllCities()
         {
             string data = "token=ps_rpo_2&param=getCountries";
 
