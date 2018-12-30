@@ -53,6 +53,7 @@ namespace WindowsFormsApp10
             string country = mf_countries.Text;
             Dictionary_city dc = new Dictionary_city(id, country);
             dc.ShowDialog();
+
         }
 
         /// <summary>

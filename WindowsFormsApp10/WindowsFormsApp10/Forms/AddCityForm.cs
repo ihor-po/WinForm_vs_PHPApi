@@ -15,27 +15,24 @@ namespace WindowsFormsApp10
 {
     public partial class AddCityForm : Form
     {
-        private int id;
-        private int countryId;
         private string country;
         private string responseJson;
         private City city;
 
-        public AddCityForm(int _id, int _countryId, string _country)
+        public AddCityForm(City _city, string _country)
         {
             InitializeComponent();
             this.Load += AddForm_Load;
-            id = _id;
-            countryId = _countryId;
+            city = _city;
             country = _country;
 
         }
 
-        private void AddForm_Load(object sender, EventArgs e)
+        private async void AddForm_Load(object sender, EventArgs e)
         {
             aсf_addButton.Click += Af_addButton_Click;
 
-            if (id == -1)
+            if (city.id == -1)
             {
                 this.Text = $"Добавление города в страну {country}";
                 aсf_addButton.Text = "Добавить";
@@ -44,8 +41,11 @@ namespace WindowsFormsApp10
             {
                 this.Text = $"Редактирование города в стране {country}";
                 aсf_addButton.Text = "Изменить";
-                getCountryById();
+                aсf_cityName.Text = city.cityName;
             }
+
+            await LoadComboboxCountriesAsync();
+            SelectCountry();
         }
 
         private void Af_addButton_Click(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace WindowsFormsApp10
                 case "Изменить":
                     if (!String.IsNullOrEmpty(aсf_cityName.Text) && city != null)
                     {
-                        UpdateCountry();
+                        UpdateCity();
                     }
                     else
                     {
@@ -77,12 +77,18 @@ namespace WindowsFormsApp10
             }
         }
 
-        private async void getCountryById()
+        /// <summary>
+        /// Add country to DB
+        /// </summary>
+        /// <param name="country"></param>
+        private async void AddNewCity(string cityName)
         {
-            string data = $"token=ps_rpo_2&param=getCountryById&countryId=" + id;
+            city.cityName = cityName;
+            city.countryId = Convert.ToInt32(acf_cb_countries.SelectedValue.ToString());
+            
+            string data = $"token=ps_rpo_2&param=createCity&city=" + JsonConvert.SerializeObject(city);
 
             WebRequest request = Common.SendData("POST", data);
-
             WebResponse response = await request.GetResponseAsync();
 
             using (Stream stream = response.GetResponseStream())
@@ -92,56 +98,28 @@ namespace WindowsFormsApp10
                     responseJson = reader.ReadToEnd();
                 }
             }
-
             response.Close();
 
-            city = JsonConvert.DeserializeObject<City>(responseJson);
-            aсf_cityName.Text = city.cityName;
-        }
-
-        /// <summary>
-        /// Add country to DB
-        /// </summary>
-        /// <param name="country"></param>
-        private async void AddNewCity(string city)
-        {
-            City newCity = new City();
-            newCity.cityName = city;
-            newCity.countryId = countryId;
-            //string data = $"token=ps_rpo_2&param=addCountry&country=" + aсf_cityName.Text;
-            string data = JsonConvert.SerializeObject(newCity);
-
-            //WebRequest request = Common.SendData("POST", data);
-
-            //WebResponse response = await request.GetResponseAsync();
-
-            //using (Stream stream = response.GetResponseStream())
-            //{
-            //using (StreamReader reader = new StreamReader(stream))
-            //{
-            //responseJson = reader.ReadToEnd();
-            //}
-            //}
-            //response.Close();
-
-            //if (responseJson == "200")
-            //{
-            //    Common.ShowSuccessMessage("Страна добавлена!");
-            //    this.DialogResult = DialogResult.OK;
-            //}
-            //else
-            //{
-            //    Common.ShowErrorMessage("Ошибка добавления!");
-            //}
+            if (responseJson == "200")
+            {
+                Common.ShowSuccessMessage("Город добавлен!");
+                this.DialogResult = DialogResult.OK;
+            }
+            else
+            {
+                Common.ShowErrorMessage("Ошибка добавления!");
+            }
         }
 
         /// <summary>
         /// Update country by id
         /// </summary>
-        private async void UpdateCountry()
+        private async void UpdateCity()
         {
-            string data = $"token=ps_rpo_2&param=updateCountryById&country={aсf_cityName.Text}&countryId={city.id}";
+            city.cityName = aсf_cityName.Text;
+            city.countryId = Convert.ToInt32(acf_cb_countries.SelectedValue.ToString());
 
+            string data = $"token=ps_rpo_2&param=updateCity&city=" + JsonConvert.SerializeObject(city);
             WebRequest request = Common.SendData("POST", data);
 
             WebResponse response = await request.GetResponseAsync();
@@ -157,12 +135,57 @@ namespace WindowsFormsApp10
 
             if (responseJson == "200")
             {
-                Common.ShowSuccessMessage("Страна изменена!");
+                Common.ShowSuccessMessage("Город изменен!");
                 this.DialogResult = DialogResult.OK;
             }
             else
             {
                 Common.ShowErrorMessage("Ошибка изменения!");
+            }
+        }
+
+        /// <summary>
+        /// Get list of countries
+        /// </summary>
+        /// <returns></returns>
+        private async Task LoadComboboxCountriesAsync()
+        {
+            string data = "token=ps_rpo_2&param=getCountries";
+
+            WebRequest request = Common.SendData("POST", data);
+
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    responseJson = reader.ReadToEnd();
+                }
+            }
+
+            response.Close();
+
+            List<Country> countiries = JsonConvert.DeserializeObject<List<Country>>(responseJson).Select(c => c).ToList();
+            acf_cb_countries.DataSource = countiries;
+            acf_cb_countries.DisplayMember = "countryName";
+            acf_cb_countries.ValueMember = "id";
+        }
+
+        /// <summary>
+        /// Select city country
+        /// </summary>
+        private void SelectCountry()
+        {
+            int i = 0;
+            foreach (Country val in acf_cb_countries.Items)
+            {
+                if (val.id == city.countryId)
+                {
+                    acf_cb_countries.SelectedIndex = i;
+                    break;
+                }
+                i++;
             }
         }
     }

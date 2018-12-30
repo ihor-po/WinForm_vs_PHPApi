@@ -32,6 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.aсf_cityName = new System.Windows.Forms.TextBox();
             this.aсf_addButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.acf_cb_countries = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -53,19 +55,41 @@
             // aсf_addButton
             // 
             this.aсf_addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.aсf_addButton.Location = new System.Drawing.Point(387, 15);
+            this.aсf_addButton.Location = new System.Drawing.Point(385, 52);
             this.aсf_addButton.Name = "aсf_addButton";
             this.aсf_addButton.Size = new System.Drawing.Size(96, 36);
             this.aсf_addButton.TabIndex = 2;
             this.aсf_addButton.Text = "Добавить";
             this.aсf_addButton.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 60);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 20);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Страна";
+            // 
+            // acf_cb_countries
+            // 
+            this.acf_cb_countries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.acf_cb_countries.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.acf_cb_countries.FormattingEnabled = true;
+            this.acf_cb_countries.Location = new System.Drawing.Point(98, 57);
+            this.acf_cb_countries.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.acf_cb_countries.Name = "acf_cb_countries";
+            this.acf_cb_countries.Size = new System.Drawing.Size(255, 28);
+            this.acf_cb_countries.TabIndex = 4;
+            // 
             // AddCityForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Blue;
-            this.ClientSize = new System.Drawing.Size(505, 67);
+            this.ClientSize = new System.Drawing.Size(505, 108);
+            this.Controls.Add(this.acf_cb_countries);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.aсf_addButton);
             this.Controls.Add(this.aсf_cityName);
             this.Controls.Add(this.label1);
@@ -89,5 +113,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox aсf_cityName;
         private System.Windows.Forms.Button aсf_addButton;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox acf_cb_countries;
     }
 }

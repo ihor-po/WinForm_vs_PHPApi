@@ -31,44 +31,52 @@ namespace WindowsFormsApp10
         private void Dictionary_city_Load(object sender, EventArgs e)
         {
             dc_addCity.Click += Df_addCity_Click;
-            dc_lv_cities.DoubleClick += Ac_countries_DoubleClick;
-            df_deleteCountry.Click += Df_deleteCountry_Click;
+            dc_lv_cities.DoubleClick += Dc_cities_DoubleClick;
+            df_deleteCountry.Click += Df_deleteCity_Click;
 
             GetCountryCities(countryId);
         }
 
         /// <summary>
-        /// Delete selected country
+        /// Delete selected city
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Df_deleteCountry_Click(object sender, EventArgs e)
+        private async void Df_deleteCity_Click(object sender, EventArgs e)
         {
-            string data = $"token=ps_rpo_2&param=deleteCountryById&countryId={dc_lv_cities.SelectedItems[0].Text}";
-
-            WebRequest request = Common.SendData("POST", data);
-
-            WebResponse response = await request.GetResponseAsync();
-
-            using (Stream stream = response.GetResponseStream())
+            if (dc_lv_cities.SelectedItems.Count > 0)
             {
-                using (StreamReader reader = new StreamReader(stream))
+                string data = $"token=ps_rpo_2&param=deleteCity&city={dc_lv_cities.SelectedItems[0].Text}";
+
+                WebRequest request = Common.SendData("POST", data);
+
+                WebResponse response = await request.GetResponseAsync();
+
+                using (Stream stream = response.GetResponseStream())
                 {
-                    responseJson = reader.ReadToEnd();
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        responseJson = reader.ReadToEnd();
+                    }
                 }
-            }
-            response.Close();
+                response.Close();
 
-            if (responseJson == "200")
-            {
-                Common.ShowSuccessMessage("Страна удалена!");
-                GetCountryCities(countryId);
-               
+                if (responseJson == "200")
+                {
+                    Common.ShowSuccessMessage("Город удален!");
+                    GetCountryCities(countryId);
+
+                }
+                else
+                {
+                    Common.ShowErrorMessage("Ошибка удаления!");
+                }
             }
             else
             {
-                Common.ShowErrorMessage("Ошибка удаления!");
+                Common.ShowErrorMessage("Город не выбран!");
             }
+            
         }
 
         /// <summary>
@@ -78,7 +86,11 @@ namespace WindowsFormsApp10
         /// <param name="e"></param>
         private void Df_addCity_Click(object sender, EventArgs e)
         {
-            AddCityForm acf = new AddCityForm(-1, countryId, country);
+            City city = new City();
+            city.id = -1;
+            city.countryId = countryId;
+
+            AddCityForm acf = new AddCityForm(city, country);
             if (acf.ShowDialog() == DialogResult.OK)
             {
                 GetCountryCities(countryId);
@@ -90,11 +102,15 @@ namespace WindowsFormsApp10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Ac_countries_DoubleClick(object sender, EventArgs e)
+        private void Dc_cities_DoubleClick(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(dc_lv_cities.SelectedItems[0].Text);
-            AddForm af = new AddForm(id);
-            if (af.ShowDialog() == DialogResult.OK)
+            City city = new City();
+            city.id = Convert.ToInt32(dc_lv_cities.SelectedItems[0].Text);
+            city.cityName = dc_lv_cities.SelectedItems[0].SubItems[1].Text;
+            city.countryId = countryId;
+
+            AddCityForm acf = new AddCityForm(city, country);
+            if (acf.ShowDialog() == DialogResult.OK)
             {
                 GetCountryCities(countryId);
             }
