@@ -1,0 +1,20 @@
+2018-12-30 09:09:49 - Add new country: Новая страна внатуре2
+2018-12-30 09:16:11 - Update country by Id: 23 => new country Name: Новая страна ка ка ка
+2018-12-30 09:16:29 - Delete country by ID: 23
+2018-12-30 09:16:33 - Delete country by ID: 22
+2018-12-30 09:23:28 - Add new city: {"id":0,"cityName":"\u041d\u043e\u0432\u044b\u0439 \u0433\u043e\u0440\u043e\u0434","countryId":21}
+2018-12-30 09:26:18 - Add new city: newCity: Городишко; Country ID: 
+2018-12-30 11:45:08 - Add new city: newCity: Го го го; Country ID: 21
+2018-12-30 13:08:01 - Add new city: newCity: Бла бла бла ; Country ID: 21
+2018-12-30 13:08:13 - Add new city: newCity: тест; Country ID: 6
+2018-12-30 13:28:16 - Update city by Id: id: 14; cityName: Тест; countryID: 6
+2018-12-30 13:29:30 - Update city by Id: id: 14; cityName: Тест; countryID: 21
+2018-12-30 13:38:22 - Delete City ID:: 14
+2018-12-30 13:38:55 - Delete City ID: 13
+2018-12-30 13:42:52 - Delete City ID: 12
+2018-12-30 13:45:08 - Update city by Id: -1; cityName: qweqeqwqwe; countryID: 21
+2018-12-30 13:47:48 - Update city by Id: -1; cityName: asdasdasd; countryID: 21
+2018-12-30 13:49:13 - Add new city: newCity: 123123; Country ID: 21
+2018-12-30 13:49:18 - Add new city: newCity: 321321; Country ID: 21
+2018-12-30 13:49:21 - Delete City ID: 15
+2018-12-30 13:49:27 - Delete City ID: 16

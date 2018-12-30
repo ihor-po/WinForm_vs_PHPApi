@@ -6,21 +6,22 @@ define('DB_PORT', '3306');
 define('DB_USER', 'tr_agent');
 define('DB_PASS', '010djqnb050');
 define('TB_COUNTRIES', 'countries');
+define('TB_CITIES', 'cities');
 
 //use PDO;
 
 class Common {
 
-    private $db;
+    private static $db;
 
-    function DB() {
+    static function DB() {
 
-        if ($this->db == null) {
+        if (self::$db == null) {
             try
             {
                 $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';port=' . DB_PORT . ';';
-                $this->db = new PDO($dsn, DB_USER, DB_PASS);
-                $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$db = new PDO($dsn, DB_USER, DB_PASS);
+                self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             catch (\PDOException $ex)
             {
@@ -29,32 +30,32 @@ class Common {
         }
     }
 
-    function getAllCountries() {
-        $this->DB();
+    static function getAllCountries() {
+        self::DB();
         $_tb = TB_COUNTRIES;
-        $stmt = $this->db->prepare("SELECT * FROM $_tb ORDER BY countryName");
+        $stmt = self::$db->prepare("SELECT * FROM $_tb ORDER BY countryName");
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    function addNewCountry($country) {
+    static function addNewCountry($country) {
         $_tb = TB_COUNTRIES;
-        $this->DB();
+        self::DB();
         $sql = "INSERT INTO $_tb (countryName) 
                 VALUES (:countryName)";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::$db->prepare($sql);
 
         return $stmt->execute([
             ':countryName' => $country
         ]);
     }
 
-    function getCountryById($id) {
+    static function getCountryById($id) {
         $_tb = TB_COUNTRIES;
-        $this->DB();
+        self::DB();
         $sql = "SELECT * FROM $_tb WHERE id = :_id";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::$db->prepare($sql);
         $stmt->execute([
             ':_id' => $id
         ]);
@@ -62,23 +63,70 @@ class Common {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    function updateCountryById($id, $country) {
+    static function updateCountryById($id, $country) {
         $_tb = TB_COUNTRIES;
-        $this->DB();
+        self::DB();
         $sql = "UPDATE $_tb SET countryName = :country
                 WHERE id = :_id";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::$db->prepare($sql);
         return $stmt->execute([
             ':_id' => $id,
             ':country' => $country
         ]);
     }
 
-    function deleteCountryById($id) {
+    static function deleteCountryById($id) {
         $_tb = TB_COUNTRIES;
-        $this->DB();
+        self::DB();
         $sql = "DELETE FROM $_tb WHERE id = :_id";
-        $stmt = $this->db->prepare($sql);
+        $stmt = self::$db->prepare($sql);
+        $stmt->execute([
+            ':_id' => $id,
+        ]);
+
+        return $stmt->rowCount();
+    }
+
+    static function getCountryCities($id) {
+        self::DB();
+        $_tb = TB_CITIES;
+        $stmt = self::$db->prepare("SELECT * FROM $_tb WHERE countryId = $id ORDER BY cityName");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    static function createNewCity($city) {
+        $_tb = TB_CITIES;
+        self::DB();
+        $sql = "INSERT INTO $_tb (cityName, countryId) 
+                VALUES (:cityName, :countryId)";
+        $stmt = self::$db->prepare($sql);
+
+        return $stmt->execute([
+            ':cityName' => $city['cityName'],
+            ':countryId' => $city['countryId']
+        ]);
+    }
+
+    static function updateCityById($city) {
+        $_tb = TB_CITIES;
+        self::DB();
+        $sql = "UPDATE $_tb SET cityName = :cityName, countryId = :countryId
+                WHERE id = :_id";
+        $stmt = self::$db->prepare($sql);
+        return $stmt->execute([
+            ':_id' => $city['id'],
+            ':cityName' => $city['cityName'],
+            ':countryId' => $city['countryId']
+        ]);
+    }
+
+    static function deleteCity($id) {
+        $_tb = TB_CITIES;
+        self::DB();
+        $sql = "DELETE FROM $_tb WHERE id = :_id";
+        $stmt = self::$db->prepare($sql);
         $stmt->execute([
             ':_id' => $id,
         ]);
