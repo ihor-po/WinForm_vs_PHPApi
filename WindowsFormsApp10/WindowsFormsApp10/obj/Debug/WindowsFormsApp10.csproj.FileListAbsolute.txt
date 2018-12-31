@@ -28,3 +28,5 @@ C:\Users\Teacher\source\repos\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\Wind
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.AddForm.resources
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.AddCityForm.resources
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.Dictionary_city.resources
+\\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.Dictionary_hotel.resources
+\\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.AddHotelForm.resources

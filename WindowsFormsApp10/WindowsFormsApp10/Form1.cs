@@ -15,6 +15,7 @@ namespace WindowsFormsApp10
     public partial class main_form : Form
     {
         private string responseJson;
+        private List<Hotel> hotels;
         public main_form()
         {
             InitializeComponent();
@@ -33,13 +34,81 @@ namespace WindowsFormsApp10
             mf_btn_cityDictionary.MouseDown += Mf_addCountry_MouseDown;
             mf_btn_cityDictionary.MouseUp += Mf_addCountry_MouseLeave;
 
+            mf_btn_hotelDictionary.MouseHover += Mf_addCountry_MouseHover;
+            mf_btn_hotelDictionary.MouseLeave += Mf_addCountry_MouseLeave;
+            mf_btn_hotelDictionary.MouseDown += Mf_addCountry_MouseDown;
+            mf_btn_hotelDictionary.MouseUp += Mf_addCountry_MouseLeave;
+
             mf_addCountry.Click += Mf_addCountry_Click;
             mf_btn_cityDictionary.Click += Mf_btn_cityDictionary_Click;
+            mf_btn_hotelDictionary.Click += Mf_btn_hotelDictionary_Click;
 
             mf_countries.SelectedIndexChanged += Mf_countries_SelectedIndexChanged;
+            mf_cb_city.SelectedIndexChanged += Mf_cb_city_SelectedIndexChanged;
+            mf_cb_hotel.SelectedIndexChanged += Mf_cb_hotel_SelectedIndexChanged;
 
             await LoadComboboxCountriesAsync();
-            await LoadComboboxCitiesAsync(Convert.ToInt32(mf_countries.SelectedValue.ToString()));
+
+            int countryId = Convert.ToInt32(mf_countries.SelectedValue.ToString());
+
+            await LoadComboboxCitiesAsync(countryId);
+
+            int cityId = Convert.ToInt32(mf_cb_city.SelectedValue.ToString());
+
+            await LoadComboboxHotelsAsync(countryId, cityId);
+
+            int hotelId = Convert.ToInt32(mf_cb_hotel.SelectedValue.ToString());
+            FillHotelInfo(hotelId);
+
+        }
+
+        private void Mf_btn_hotelDictionary_Click(object sender, EventArgs e)
+        {
+            int countryId = Convert.ToInt32(mf_countries.SelectedValue.ToString());
+            int cityId = Convert.ToInt32(mf_cb_city.SelectedValue.ToString());
+            string city = mf_cb_city.Text;
+
+            Dictionary_hotel dh = new Dictionary_hotel(countryId, cityId, city);
+            dh.ShowDialog();
+        }
+
+        /// <summary>
+        /// Event when selected city changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Mf_cb_city_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int countryId = Convert.ToInt32(mf_countries.SelectedValue.ToString());
+                int cityId = Convert.ToInt32(mf_cb_city.SelectedValue.ToString());
+
+                await LoadComboboxHotelsAsync(countryId, cityId);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// When selected hotel was changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Mf_cb_hotel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int hotelId = Convert.ToInt32(mf_cb_hotel.SelectedValue.ToString());
+                ClearStars();
+                FillHotelInfo(hotelId);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         /// <summary>
@@ -53,7 +122,6 @@ namespace WindowsFormsApp10
             string country = mf_countries.Text;
             Dictionary_city dc = new Dictionary_city(id, country);
             dc.ShowDialog();
-
         }
 
         /// <summary>
@@ -124,41 +192,6 @@ namespace WindowsFormsApp10
             (sender as Button).BackColor = Color.RoyalBlue;
         }
 
-        //private async Task InsertCountriesAsync()
-        //{
-        //    //WebRequest request = WebRequest.Create("http://localhost:777/travel_agancy.loc/apiExem/api.php");       
-        //    WebRequest request = WebRequest.Create("http://178.213.0.182:11080/apiExem/api.php");       
-        //    //WebRequest request = WebRequest.Create("http://192.168.88.217/apiExem/api.php");
-        //    request.Method = "POST"; // для отправки используется метод Post
-        //                             // данные для отправки
-        //    string data = $"token=ps_rpo_2&param=insCountries&object={JsonConvert.SerializeObject(new Country { countryName="Bolivia"})}";
-        //    // преобразуем данные в массив байтов
-        //    byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(data);
-        //    // устанавливаем тип содержимого - параметр ContentType
-        //    request.ContentType = "application/x-www-form-urlencoded";
-        //    // Устанавливаем заголовок Content-Length запроса - свойство ContentLength
-        //    request.ContentLength = byteArray.Length;
-
-        //    //записываем данные в поток запроса
-        //    using (Stream dataStream = request.GetRequestStream())
-        //    {
-        //        dataStream.Write(byteArray, 0, byteArray.Length);
-        //    }
-
-        //    WebResponse response = await request.GetResponseAsync();
-        //    using (Stream stream = response.GetResponseStream())
-        //    {
-        //        using (StreamReader reader = new StreamReader(stream))
-        //        {
-        //            responseJson = reader.ReadToEnd();
-        //        }
-        //    }
-        //    response.Close();
-        //    if (responseJson == "200") {
-        //        MessageBox.Show("Страна добавлена!");
-        //    }
-        //}
-
         /// <summary>
         /// Get list of countries
         /// </summary>
@@ -215,8 +248,7 @@ namespace WindowsFormsApp10
             if (cities.Count() == 0)
             {
                 EnabDisabCitiesControls(false);
-                
-                mf_cb_city.DataSource = null;
+                EnabDisabHotelsControls(false);
             }
             else
             {
@@ -229,12 +261,123 @@ namespace WindowsFormsApp10
         }
 
         /// <summary>
+        /// Get list of hotels
+        /// </summary>
+        /// <param name="countryId"></param>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        private async Task LoadComboboxHotelsAsync(int countryId, int cityId)
+        {
+            string data = $"token=ps_rpo_2&param=getHotels&countryId={countryId}&cityId={cityId}";
+
+            WebRequest request = Common.SendData("POST", data);
+
+            WebResponse response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    responseJson = reader.ReadToEnd();
+                }
+            }
+
+            response.Close();
+
+            hotels = JsonConvert.DeserializeObject<List<Hotel>>(responseJson).Select(c => c).ToList();
+
+            if (hotels.Count() == 0)
+            {
+                EnabDisabHotelsControls(false);
+            }
+            else
+            {
+                EnabDisabHotelsControls(true);
+
+                mf_cb_hotel.DataSource = hotels;
+                mf_cb_hotel.DisplayMember = "hotelName";
+                mf_cb_hotel.ValueMember = "id";
+            }
+        }
+
+        /// <summary>
         /// Enable / disable cities controls
         /// </summary>
         /// <param name="status"></param>
         private void EnabDisabCitiesControls(bool status)
         {
             mf_cb_city.Enabled = status;
+            if (!status)
+            {
+                mf_cb_city.DataSource = null;
+            }
+        }
+
+        /// <summary>
+        /// Enable / disable cities controls
+        /// </summary>
+        /// <param name="status"></param>
+        private void EnabDisabHotelsControls(bool status)
+        {
+            mf_cb_hotel.Enabled = status;
+            if (!status)
+            {
+                mf_lbl_cost.Text = "0.00";
+                mf_tb_hotelInfo.Text = "";
+                mf_cb_hotel.DataSource = null;
+                ClearStars();
+            }
+        }
+
+        /// <summary>
+        /// Fill hotel info
+        /// </summary>
+        /// <param name="hotelId"></param>
+        private void FillHotelInfo(int hotelId)
+        {
+            Hotel hotel = hotels.First(h => h.id == hotelId);
+
+            if (hotel != null)
+            {
+                mf_lbl_cost.Text = hotel.cost.ToString();
+                mf_tb_hotelInfo.Text = hotel.info;
+                FillStars(hotel.stars);
+            }
+            
+        }
+
+
+        /// <summary>
+        /// Fill hotels stars
+        /// </summary>
+        /// <param name="count"></param>
+        private void FillStars(int count)
+        {
+            if (count > 0 )
+            {
+                for (int i = 4; i > 4 - count; i--)
+                {
+                    if (mf_gb_stars.Controls[i] is PictureBox)
+                    {
+                        (mf_gb_stars.Controls[i] as PictureBox).Visible = true;
+                    }
+                    
+                }
+            }
+        }
+
+        /// <summary>
+        /// Hide all stars
+        /// </summary>
+        private void ClearStars()
+        {
+            foreach(var item in mf_gb_stars.Controls)
+            {
+                if (item is PictureBox)
+                {
+                    (item as PictureBox).Visible = false;
+                }
+            }
         }
 
     }
