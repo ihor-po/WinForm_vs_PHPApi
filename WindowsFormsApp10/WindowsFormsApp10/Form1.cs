@@ -249,10 +249,12 @@ namespace WindowsFormsApp10
             {
                 EnabDisabCitiesControls(false);
                 EnabDisabHotelsControls(false);
+                mf_btn_hotelDictionary.Enabled = false;
             }
             else
             {
                 EnabDisabCitiesControls(true);
+                mf_btn_hotelDictionary.Enabled = true;
 
                 mf_cb_city.DataSource = cities;
                 mf_cb_city.DisplayMember = "cityName";

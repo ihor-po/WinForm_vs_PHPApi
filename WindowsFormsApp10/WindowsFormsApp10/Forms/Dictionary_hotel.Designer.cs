@@ -34,7 +34,7 @@
             this.hotelName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Stars = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Cost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.dc_addCity = new System.Windows.Forms.Button();
+            this.dc_addHotel = new System.Windows.Forms.Button();
             this.df_deleteCountry = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -77,16 +77,16 @@
             this.Cost.Text = "Стоимость";
             this.Cost.Width = 120;
             // 
-            // dc_addCity
+            // dc_addHotel
             // 
-            this.dc_addCity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.dc_addCity.ForeColor = System.Drawing.Color.White;
-            this.dc_addCity.Location = new System.Drawing.Point(645, 181);
-            this.dc_addCity.Name = "dc_addCity";
-            this.dc_addCity.Size = new System.Drawing.Size(161, 68);
-            this.dc_addCity.TabIndex = 1;
-            this.dc_addCity.Text = "Добавить";
-            this.dc_addCity.UseVisualStyleBackColor = true;
+            this.dc_addHotel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.dc_addHotel.ForeColor = System.Drawing.Color.White;
+            this.dc_addHotel.Location = new System.Drawing.Point(645, 181);
+            this.dc_addHotel.Name = "dc_addHotel";
+            this.dc_addHotel.Size = new System.Drawing.Size(161, 68);
+            this.dc_addHotel.TabIndex = 1;
+            this.dc_addHotel.Text = "Добавить";
+            this.dc_addHotel.UseVisualStyleBackColor = true;
             // 
             // df_deleteCountry
             // 
@@ -106,7 +106,7 @@
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(818, 346);
             this.Controls.Add(this.df_deleteCountry);
-            this.Controls.Add(this.dc_addCity);
+            this.Controls.Add(this.dc_addHotel);
             this.Controls.Add(this.dc_lv_hotels);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -124,7 +124,7 @@
         #endregion
 
         private System.Windows.Forms.ListView dc_lv_hotels;
-        private System.Windows.Forms.Button dc_addCity;
+        private System.Windows.Forms.Button dc_addHotel;
         private System.Windows.Forms.Button df_deleteCountry;
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader hotelName;

@@ -19,6 +19,7 @@ namespace WindowsFormsApp10
         private int countryId;
         private int cityId;
         private string city;
+        private List<Hotel> hotels;
 
         public Dictionary_hotel(int _countryId, int _cityId, string _city)
         {
@@ -32,8 +33,8 @@ namespace WindowsFormsApp10
 
         private void Dictionary_hotel_Load(object sender, EventArgs e)
         {
-            dc_addCity.Click += Df_addCity_Click;
-            dc_lv_hotels.DoubleClick += Dc_cities_DoubleClick;
+            dc_addHotel.Click += Df_addHotel_Click;
+            dc_lv_hotels.DoubleClick += Dc_hotels_DoubleClick;
             df_deleteCountry.Click += Df_deleteCity_Click;
 
             GetCityHotels(countryId, cityId);
@@ -86,14 +87,15 @@ namespace WindowsFormsApp10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Df_addCity_Click(object sender, EventArgs e)
+        private void Df_addHotel_Click(object sender, EventArgs e)
         {
-            City city = new City();
-            city.id = -1;
-            city.countryId = countryId;
+            Hotel hotel = new Hotel();
+            hotel.id = -1;
+            hotel.countryId = countryId;
+            hotel.cityId = cityId;
 
-            AddCityForm acf = new AddCityForm(city, null);
-            if (acf.ShowDialog() == DialogResult.OK)
+            AddHotelForm ahf = new AddHotelForm(hotel, city);
+            if (ahf.ShowDialog() == DialogResult.OK)
             {
                 GetCityHotels(countryId, cityId);
             }
@@ -104,18 +106,25 @@ namespace WindowsFormsApp10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Dc_cities_DoubleClick(object sender, EventArgs e)
+        private void Dc_hotels_DoubleClick(object sender, EventArgs e)
         {
-            City city = new City();
-            city.id = Convert.ToInt32(dc_lv_hotels.SelectedItems[0].Text);
-            city.cityName = dc_lv_hotels.SelectedItems[0].SubItems[1].Text;
-            city.countryId = countryId;
+            int hotelId = Convert.ToInt32(dc_lv_hotels.SelectedItems[0].Text);
+            Hotel hotel = hotels.First(h => h.id == hotelId);
 
-            AddCityForm acf = new AddCityForm(city, null);
-            if (acf.ShowDialog() == DialogResult.OK)
+            if (hotel != null)
             {
-                GetCityHotels(countryId, cityId);
+                AddHotelForm ahf = new AddHotelForm(hotel, city);
+                if (ahf.ShowDialog() == DialogResult.OK)
+                {
+                    GetCityHotels(countryId, cityId);
+                }
             }
+            else
+            {
+                Common.ShowErrorMessage("Город не найден!");
+            }
+
+            
         }
 
         /// <summary>
@@ -141,11 +150,11 @@ namespace WindowsFormsApp10
 
             response.Close();
 
-            List<Hotel> cities = JsonConvert.DeserializeObject<List<Hotel>>(responseJson).Select(h => h).ToList();
+            hotels = JsonConvert.DeserializeObject<List<Hotel>>(responseJson).Select(h => h).ToList();
 
             dc_lv_hotels.Items.Clear();
 
-            foreach (var item in cities)
+            foreach (var item in hotels)
             {
                 ListViewItem lvi = new ListViewItem(item.id.ToString());
                 lvi.SubItems.Add(item.hotelName);
