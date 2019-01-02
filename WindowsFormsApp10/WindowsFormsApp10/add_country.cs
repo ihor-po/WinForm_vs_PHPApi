@@ -21,6 +21,13 @@ namespace WindowsFormsApp10
         {
             InitializeComponent();
             this.Load += Add_country_Load;
+            this.FormClosed += Add_country_FormClosed;
+        }
+
+        private void Add_country_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void Add_country_Load(object sender, EventArgs e)

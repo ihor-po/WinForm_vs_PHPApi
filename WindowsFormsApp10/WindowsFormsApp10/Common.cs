@@ -14,9 +14,8 @@ namespace WindowsFormsApp10
     {
         public static WebRequest SendData(string method, string data)
         {
-            //request = WebRequest.Create("http://localhost:777/travel_agancy.loc/apiExem/api.php");              
-            WebRequest request = WebRequest.Create("http://192.168.88.217/apiExem/api.php");     
-            //WebRequest request = WebRequest.Create("http://178.213.0.182:11080/apiExem/api.php");
+            //WebRequest request = WebRequest.Create("http://192.168.88.217/apiExem/api.php");     
+            WebRequest request = WebRequest.Create("http://178.213.0.182:11080/apiExem/api.php");
             request.Method = method;
 
             // преобразуем данные в массив байтов

@@ -16,7 +16,6 @@ C:\Users\Teacher\source\repos\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\Wind
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\bin\Debug\WindowsFormsApp10.pdb
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\bin\Debug\Newtonsoft.Json.dll
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\bin\Debug\Newtonsoft.Json.xml
-\\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.csprojAssemblyReference.cache
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.Properties.Resources.resources
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.csproj.GenerateResource.cache
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.csproj.CoreCompileInputs.cache
@@ -30,3 +29,4 @@ C:\Users\Teacher\source\repos\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\Wind
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.Dictionary_city.resources
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.Dictionary_hotel.resources
 \\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.AddHotelForm.resources
+\\Mac\iCloud\Step\NetworkProg\homeWork_1543159702\WindowsFormsApp10\WindowsFormsApp10\obj\Debug\WindowsFormsApp10.csprojAssemblyReference.cache

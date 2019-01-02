@@ -26,13 +26,20 @@ namespace WindowsFormsApp10
             country = _country;
             this.Text += country;
             this.Load += Dictionary_city_Load;
+            this.FormClosed += Dictionary_city_FormClosed;
+        }
+
+        private void Dictionary_city_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void Dictionary_city_Load(object sender, EventArgs e)
         {
             dc_addCity.Click += Df_addCity_Click;
             dc_lv_cities.DoubleClick += Dc_cities_DoubleClick;
-            df_deleteCountry.Click += Df_deleteCity_Click;
+            df_deleteCity.Click += Df_deleteCity_Click;
 
             GetCountryCities(countryId);
         }

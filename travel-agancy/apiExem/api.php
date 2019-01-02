@@ -116,6 +116,76 @@ if(checkToken($_POST['token'])){
                 echo 500;
             }
             break;
+
+        case 'getHotels':
+            if (isset($_POST) && !empty($_POST['countryId']) && !empty($_POST['cityId'])){
+                $items = Common::getCityHotels($_POST['countryId'], $_POST['cityId']);
+                echo json_encode($items);
+            }
+            else
+            {
+                LogHelper::addLog('Get Hotels ERROR', 'Error POST request' );
+                echo 500;
+            }
+            break;
+
+        case 'createHotel':
+            if (isset($_POST) && !empty($_POST['hotel'])) {
+                $hotel = str_replace('\\', '', $_POST['hotel']);
+                $hotel = json_decode($hotel, true);
+
+                $items = Common::createNewHotel($hotel);
+                if ($items) {
+                    $data = 'newHotel: ' . $hotel['hotelName'] . '; Country ID: ' . $hotel['countryId'] . '; CityID: ' . $hotel['cityId'];
+                    LogHelper::addLog('Add new hotel', $data);
+                    echo 200;
+                } else {
+                    echo 500;
+                }
+            } else {
+                LogHelper::addLog('Create Hotel ERROR', 'Error POST request' );
+                echo 500;
+            }
+            break;
+
+        case 'updateHotel':
+            if (isset($_POST) && !empty($_POST['hotel'])) {
+                $hotel = str_replace('\\', '', $_POST['hotel']);
+                $hotel = json_decode($hotel, true);
+
+                $res = Common::updateHotelById($hotel);
+
+                if ($res) {
+                    $data = 'Hotel: ' . $hotel['hotelName'] . '; Country ID: ' . $hotel['countryId'] . '; CityID: ' . $hotel['cityId'];
+                    LogHelper::addLog('Update hotel by Id', $data);
+                    echo 200;
+                } else {
+                    LogHelper::addLog('Update hotel by Id ERROR', $res);
+                    echo 500;
+                }
+            } else {
+                LogHelper::addLog('Update Hotel ERROR', 'Error POST request' );
+                echo 500;
+            }
+            break;
+
+        case 'deleteHotel':
+            if (isset($_POST) && !empty($_POST['hotel'])) {
+                $id = $_POST['hotel'];
+                $res = Common::deleteHotel($id);
+
+                if ($res) {
+                    LogHelper::addLog('Delete Hotel ID', $id);
+                    echo 200;
+                } else {
+                    LogHelper::addLog('Delete Hotel ERROR', $res);
+                    echo 500;
+                }
+            } else {
+                LogHelper::addLog('Delete Hotel ERROR', 'Error POST request' );
+                echo 500;
+            }
+            break;
     }
 
 }else

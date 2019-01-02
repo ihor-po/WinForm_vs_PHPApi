@@ -35,7 +35,7 @@
             this.Stars = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Cost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.dc_addHotel = new System.Windows.Forms.Button();
-            this.df_deleteCountry = new System.Windows.Forms.Button();
+            this.df_deleteHotel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dc_lv_hotels
@@ -88,16 +88,16 @@
             this.dc_addHotel.Text = "Добавить";
             this.dc_addHotel.UseVisualStyleBackColor = true;
             // 
-            // df_deleteCountry
+            // df_deleteHotel
             // 
-            this.df_deleteCountry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.df_deleteCountry.ForeColor = System.Drawing.Color.White;
-            this.df_deleteCountry.Location = new System.Drawing.Point(645, 264);
-            this.df_deleteCountry.Name = "df_deleteCountry";
-            this.df_deleteCountry.Size = new System.Drawing.Size(161, 68);
-            this.df_deleteCountry.TabIndex = 2;
-            this.df_deleteCountry.Text = "Удалить";
-            this.df_deleteCountry.UseVisualStyleBackColor = true;
+            this.df_deleteHotel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.df_deleteHotel.ForeColor = System.Drawing.Color.White;
+            this.df_deleteHotel.Location = new System.Drawing.Point(645, 264);
+            this.df_deleteHotel.Name = "df_deleteHotel";
+            this.df_deleteHotel.Size = new System.Drawing.Size(161, 68);
+            this.df_deleteHotel.TabIndex = 2;
+            this.df_deleteHotel.Text = "Удалить";
+            this.df_deleteHotel.UseVisualStyleBackColor = true;
             // 
             // Dictionary_hotel
             // 
@@ -105,7 +105,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(818, 346);
-            this.Controls.Add(this.df_deleteCountry);
+            this.Controls.Add(this.df_deleteHotel);
             this.Controls.Add(this.dc_addHotel);
             this.Controls.Add(this.dc_lv_hotels);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -125,7 +125,7 @@
 
         private System.Windows.Forms.ListView dc_lv_hotels;
         private System.Windows.Forms.Button dc_addHotel;
-        private System.Windows.Forms.Button df_deleteCountry;
+        private System.Windows.Forms.Button df_deleteHotel;
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader hotelName;
         private System.Windows.Forms.ColumnHeader Stars;

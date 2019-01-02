@@ -33,7 +33,7 @@
             this.ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cityName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.dc_addCity = new System.Windows.Forms.Button();
-            this.df_deleteCountry = new System.Windows.Forms.Button();
+            this.df_deleteCity = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dc_lv_cities
@@ -74,16 +74,16 @@
             this.dc_addCity.Text = "Добавить";
             this.dc_addCity.UseVisualStyleBackColor = true;
             // 
-            // df_deleteCountry
+            // df_deleteCity
             // 
-            this.df_deleteCountry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.df_deleteCountry.ForeColor = System.Drawing.Color.White;
-            this.df_deleteCountry.Location = new System.Drawing.Point(454, 95);
-            this.df_deleteCountry.Name = "df_deleteCountry";
-            this.df_deleteCountry.Size = new System.Drawing.Size(161, 68);
-            this.df_deleteCountry.TabIndex = 2;
-            this.df_deleteCountry.Text = "Удалить";
-            this.df_deleteCountry.UseVisualStyleBackColor = true;
+            this.df_deleteCity.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.df_deleteCity.ForeColor = System.Drawing.Color.White;
+            this.df_deleteCity.Location = new System.Drawing.Point(454, 95);
+            this.df_deleteCity.Name = "df_deleteCity";
+            this.df_deleteCity.Size = new System.Drawing.Size(161, 68);
+            this.df_deleteCity.TabIndex = 2;
+            this.df_deleteCity.Text = "Удалить";
+            this.df_deleteCity.UseVisualStyleBackColor = true;
             // 
             // Dictionary_city
             // 
@@ -91,7 +91,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.ClientSize = new System.Drawing.Size(627, 172);
-            this.Controls.Add(this.df_deleteCountry);
+            this.Controls.Add(this.df_deleteCity);
             this.Controls.Add(this.dc_addCity);
             this.Controls.Add(this.dc_lv_cities);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -111,7 +111,7 @@
 
         private System.Windows.Forms.ListView dc_lv_cities;
         private System.Windows.Forms.Button dc_addCity;
-        private System.Windows.Forms.Button df_deleteCountry;
+        private System.Windows.Forms.Button df_deleteCity;
         private System.Windows.Forms.ColumnHeader ID;
         private System.Windows.Forms.ColumnHeader cityName;
     }

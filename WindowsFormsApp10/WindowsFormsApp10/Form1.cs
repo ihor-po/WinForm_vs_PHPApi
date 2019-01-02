@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -53,23 +54,37 @@ namespace WindowsFormsApp10
 
             await LoadComboboxCitiesAsync(countryId);
 
-            int cityId = Convert.ToInt32(mf_cb_city.SelectedValue.ToString());
+            if (mf_cb_city.Items.Count > 0)
+            {
+                int cityId = Convert.ToInt32(mf_cb_city.SelectedValue.ToString());
 
-            await LoadComboboxHotelsAsync(countryId, cityId);
+                await LoadComboboxHotelsAsync(countryId, cityId);
 
-            int hotelId = Convert.ToInt32(mf_cb_hotel.SelectedValue.ToString());
-            FillHotelInfo(hotelId);
-
+                if (mf_cb_hotel.Items.Count > 0)
+                {
+                    int hotelId = Convert.ToInt32(mf_cb_hotel.SelectedValue.ToString());
+                    FillHotelInfo(hotelId);
+                }
+            }
         }
 
-        private void Mf_btn_hotelDictionary_Click(object sender, EventArgs e)
+        private async void Mf_btn_hotelDictionary_Click(object sender, EventArgs e)
         {
             int countryId = Convert.ToInt32(mf_countries.SelectedValue.ToString());
             int cityId = Convert.ToInt32(mf_cb_city.SelectedValue.ToString());
             string city = mf_cb_city.Text;
 
             Dictionary_hotel dh = new Dictionary_hotel(countryId, cityId, city);
-            dh.ShowDialog();
+            if (dh.ShowDialog() == DialogResult.OK)
+            {
+                await LoadComboboxHotelsAsync(countryId, cityId);
+
+                if (mf_cb_hotel.Items.Count > 0)
+                {
+                    int hotelId = Convert.ToInt32(mf_cb_hotel.SelectedValue.ToString());
+                    FillHotelInfo(hotelId);
+                }
+            }
         }
 
         /// <summary>
@@ -116,12 +131,27 @@ namespace WindowsFormsApp10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Mf_btn_cityDictionary_Click(object sender, EventArgs e)
+        private async void Mf_btn_cityDictionary_Click(object sender, EventArgs e)
         {
             int id = Convert.ToInt32(mf_countries.SelectedValue.ToString());
             string country = mf_countries.Text;
             Dictionary_city dc = new Dictionary_city(id, country);
-            dc.ShowDialog();
+            if (dc.ShowDialog() == DialogResult.OK)
+            {
+                await LoadComboboxCitiesAsync(id);
+                if (mf_cb_city.Items.Count > 0)
+                {
+                    int cityId = Convert.ToInt32(mf_cb_city.SelectedValue.ToString());
+
+                    await LoadComboboxHotelsAsync(id, cityId);
+
+                    if (mf_cb_hotel.Items.Count > 0)
+                    {
+                        int hotelId = Convert.ToInt32(mf_cb_hotel.SelectedValue.ToString());
+                        FillHotelInfo(hotelId);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -129,11 +159,15 @@ namespace WindowsFormsApp10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Mf_addCountry_Click(object sender, EventArgs e)
+        private async void Mf_addCountry_Click(object sender, EventArgs e)
         {
             add_country ac = new add_country();
 
-            ac.ShowDialog();
+            if (ac.ShowDialog() == DialogResult.OK)
+            {
+                await LoadComboboxCountriesAsync();
+            }
+            
         }
 
         /// <summary>
@@ -156,7 +190,6 @@ namespace WindowsFormsApp10
                 {
 
                 }
-               
             }
         }
 
@@ -342,7 +375,7 @@ namespace WindowsFormsApp10
             if (hotel != null)
             {
                 mf_lbl_cost.Text = hotel.cost.ToString();
-                mf_tb_hotelInfo.Text = hotel.info;
+                mf_tb_hotelInfo.Text = Regex.Replace(hotel.info,"(rn)","\r\n");
                 FillStars(hotel.stars);
             }
             

@@ -29,13 +29,20 @@ namespace WindowsFormsApp10
             city = _city;
             this.Text += city;
             this.Load += Dictionary_hotel_Load;
+            this.FormClosed += Dictionary_hotel_FormClosed;
+        }
+
+        private void Dictionary_hotel_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void Dictionary_hotel_Load(object sender, EventArgs e)
         {
             dc_addHotel.Click += Df_addHotel_Click;
             dc_lv_hotels.DoubleClick += Dc_hotels_DoubleClick;
-            df_deleteCountry.Click += Df_deleteCity_Click;
+            df_deleteHotel.Click += Df_deleteHotel_Click;
 
             GetCityHotels(countryId, cityId);
         }
@@ -45,11 +52,11 @@ namespace WindowsFormsApp10
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Df_deleteCity_Click(object sender, EventArgs e)
+        private async void Df_deleteHotel_Click(object sender, EventArgs e)
         {
             if (dc_lv_hotels.SelectedItems.Count > 0)
             {
-                string data = $"token=ps_rpo_2&param=deleteCity&city={dc_lv_hotels.SelectedItems[0].Text}";
+                string data = $"token=ps_rpo_2&param=deleteHotel&hotel={dc_lv_hotels.SelectedItems[0].Text}";
 
                 WebRequest request = Common.SendData("POST", data);
 
@@ -66,7 +73,7 @@ namespace WindowsFormsApp10
 
                 if (responseJson == "200")
                 {
-                    Common.ShowSuccessMessage("Город удален!");
+                    Common.ShowSuccessMessage("Отель удален!");
                     GetCityHotels(countryId, cityId);
 
                 }
@@ -77,7 +84,7 @@ namespace WindowsFormsApp10
             }
             else
             {
-                Common.ShowErrorMessage("Город не выбран!");
+                Common.ShowErrorMessage("Отель не выбран!");
             }
             
         }
@@ -121,7 +128,7 @@ namespace WindowsFormsApp10
             }
             else
             {
-                Common.ShowErrorMessage("Город не найден!");
+                Common.ShowErrorMessage("Отель не найден!");
             }
 
             
